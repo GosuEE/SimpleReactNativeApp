@@ -1,8 +1,8 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import selected from "./slices/selectedSlice";
+import weekDate from "./slices/weekDateSlice";
 
 const rootReducer = combineReducers({
-  selected,
+  weekDate,
 });
 
 export default store = configureStore({

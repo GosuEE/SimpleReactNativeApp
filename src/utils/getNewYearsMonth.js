@@ -6,7 +6,7 @@ export default function getNewYearsMonth(year, month) {
     newMonth += 12;
   }
   if (newMonth > 12) {
-    newYear = +1;
+    newYear += 1;
     newMonth -= 12;
   }
   return { newYear, newMonth };
