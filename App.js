@@ -1,6 +1,11 @@
-import { View } from "react-native";
 import Navigation from "./src/navigation/Navigation.jsx";
+import { Provider } from "react-redux";
+import store from "./src/app/configStore";
 
 export default function App() {
-  return <Navigation />;
+  return (
+    <Provider store={store}>
+      <Navigation />
+    </Provider>
+  );
 }

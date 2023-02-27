@@ -1,41 +1,24 @@
 import { useEffect, useState } from "react";
-
-function getNewYearsMonth(year, month) {
-  let newYear = year;
-  let newMonth = month;
-  if (newMonth < 1) {
-    newYear -= 1;
-    newMonth += 12;
-  }
-  if (newMonth > 12) {
-    newYear = +1;
-    newMonth -= 12;
-  }
-  return { newYear, newMonth };
-}
-
-function isLeapYear(year) {
-  return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
-}
-
-const daysInMonth = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+import { DAYS_IN_MONTH } from "../helper/constants";
+import isLeapYear from "../utils/isLeapYear";
+import getNewYearsMonth from "../utils/getNewYearsMonth";
 
 function useMonthDate(year, month) {
-  const [callendarDates, setCallendarDates] = useState();
+  const [calendarDates, setCalendarDates] = useState();
   const [isMounted, setIsMounted] = useState(false);
 
-  const [end, setEnd] = useState(daysInMonth[month]);
+  const [end, setEnd] = useState(DAYS_IN_MONTH[month]);
   const [startDay, setStartDay] = useState(
     new Date(year, month - 1, 1).getDay()
   );
 
   useEffect(() => {
-    if (isLeapYear(year)) daysInMonth[2] = 29;
-    else daysInMonth[2] = 28;
+    if (isLeapYear(year)) DAYS_IN_MONTH[2] = 29;
+    else DAYS_IN_MONTH[2] = 28;
   }, [year]);
 
   useEffect(() => {
-    setEnd(() => daysInMonth[month]);
+    setEnd(() => DAYS_IN_MONTH[month]);
     setStartDay(() => new Date(year, month - 1, 1).getDay());
   }, [year, month]);
 
@@ -51,7 +34,7 @@ function useMonthDate(year, month) {
         return {
           year: newYear,
           month: newMonth,
-          date: daysInMonth[newMonth] - i,
+          date: DAYS_IN_MONTH[newMonth] - i,
           color: "#c0c0c0",
         };
       })
@@ -64,11 +47,11 @@ function useMonthDate(year, month) {
       return { year: newYear, month: newMonth, date: i + 1, color: "#c0c0c0" };
     });
 
-    setCallendarDates(beforeMonthDates.concat(dates).concat(nextMonthDates));
+    setCalendarDates(beforeMonthDates.concat(dates).concat(nextMonthDates));
     setIsMounted(true);
   }, [end, startDay]);
 
-  return { callendarDates, isMounted };
+  return { calendarDates, isMounted };
 }
 
 export default useMonthDate;

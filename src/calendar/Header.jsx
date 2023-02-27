@@ -2,6 +2,8 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import styled from "styled-components";
 import { AntDesign } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
+import toBeforeMonth from "../utils/toBeforeMonth";
+import toNextMonth from "../utils/toNextMonth";
 
 const months = [
   "0",
@@ -18,32 +20,16 @@ const months = [
   "November",
   "December",
 ];
-function Header({ month, year, setMonth, setYear }) {
-  function toBeforeMonth() {
-    if (month <= 1) {
-      setMonth(month - 1 + 12);
-      setYear(year - 1);
-    } else {
-      setMonth(month - 1);
-    }
-  }
-
-  function toNextMonth() {
-    if (month >= 12) {
-      setMonth(month + 1 - 12);
-      setYear(year + 1);
-    } else {
-      setMonth(month + 1);
-    }
-  }
-
+function Header({ month, year, setMonth, setYear, calendarMode }) {
+  function toBeforeWeek() {}
+  function toNextWeek() {}
   return (
     <Container>
-      <Pressable onPress={toBeforeMonth}>
+      <Pressable onPress={() => toBeforeMonth(month, year, setMonth, setYear)}>
         <LeftIcon name="left" size={28} color="#0078ff" />
       </Pressable>
       <Month>{`${months[month]} ${year}`}</Month>
-      <Pressable onPress={toNextMonth}>
+      <Pressable onPress={() => toNextMonth(month, year, setMonth, setYear)}>
         <RightIcon name="right" size={24} color="#0078ff" />
       </Pressable>
     </Container>

@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { Pressable, Text, View } from "react-native";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
-function CallendarDate({
+function CalendarDate({
   item,
   index,
-  // month,
   selectedYear,
   selectedMonth,
   selectedDate,
-  setSelected,
+  selectDate,
 }) {
   const [isSelected, setIsSelected] = useState(false);
 
@@ -42,7 +42,7 @@ function CallendarDate({
         {`${item.date}`}
       </Date>
       {isSelected && <Selected></Selected>}
-      <StPressable onPress={() => setSelected(item)} />
+      <StPressable onPress={() => selectDate(item)} />
     </DateWrapper>
   );
 }
@@ -78,4 +78,4 @@ const Date = styled(Text)`
   padding: 10px 0;
 `;
 
-export default CallendarDate;
+export default CalendarDate;

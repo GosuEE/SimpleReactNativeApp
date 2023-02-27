@@ -4,22 +4,22 @@ import Header from "../calendar/Header";
 import Body from "../calendar/Body";
 import { useEffect, useState } from "react";
 import { PanGestureHandler } from "react-native-gesture-handler";
+import { useDispatch } from "react-redux";
+import { CALENDAR_MODE } from "../helper/constants";
 
 export default function Calendar() {
   const [date, setDate] = useState(new Date().getDate());
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [year, setYear] = useState(new Date().getFullYear());
-  const [day, setDay] = useState(new Date().getDay());
+  const [calendarMode, setCalendarMode] = useState(CALENDAR_MODE.MONTH);
 
-  useEffect(() => {
-    setDay(new Date(year, month - 1, date).getDay());
-  }, [year, month, date]);
+  const dispatch = useDispatch();
 
   function handleGesture({ nativeEvent }) {
     if (nativeEvent.velocityY > 0) {
-      console.log("Swipe down");
+      setCalendarMode(CALENDAR_MODE.MONTH);
     } else {
-      console.log("Swipe up");
+      setCalendarMode(CALENDAR_MODE.WEEK);
     }
   }
 
@@ -28,12 +28,11 @@ export default function Calendar() {
       <Header
         setMonth={setMonth}
         setYear={setYear}
-        date={date}
         month={month}
-        day={day}
         year={year}
+        calendarMode={calendarMode}
       />
-      <Body date={date} month={month} day={day} year={year} />
+      <Body date={date} month={month} year={year} calendarMode={calendarMode} />
       <PanGestureHandler
         onGestureEvent={handleGesture}
         onHandlerStateChange={handleGesture}
